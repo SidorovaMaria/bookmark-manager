@@ -1,12 +1,14 @@
 import BookmarksHeader from "@/components/layout/bookmark/BookmarksHeader";
 import Navigation from "@/components/layout/nav/Navigation";
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <Navigation />
+      <Suspense fallback={<>...</>}>
+        <Navigation />
+      </Suspense>
       <main
         className={clsx(
           "lg:ml-[296px]",
@@ -15,7 +17,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
           "flex flex-col  gap-5"
         )}
       >
-        <BookmarksHeader />
+        <Suspense>
+          <BookmarksHeader />
+        </Suspense>
         {children}
       </main>
     </>
