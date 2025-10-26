@@ -1,26 +1,236 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
+/* Light Theme */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --n-900: #051513;
+  --n-800: #4c5c59;
+  --n-500: #899492;
+  --n-400: #c0cfcc;
+  --n-300: #dde9e7;
+  --n-100: #e8f0ef;
+  --n-0: #ffffff;
 }
-
+/* Dark Theme */
+:root.dark {
+  --n-900: #001414;
+  --n-800: #001f1f;
+  --n-600: #002e2d;
+  --n-500: #004241;
+  --n-400: #004746;
+  --n-300: #00706e;
+  --n-100: #b1b9b9;
+  --n-0: #ffffff;
+}
+/* Theme Variables */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-n-900: var(--n-900);
+  --color-n-800: var(--n-800);
+  --color-n-600: var(--n-600);
+  --color-n-500: var(--n-500);
+  --color-n-400: var(--n-400);
+  --color-n-300: var(--n-300);
+  --color-n-100: var(--n-100);
+  --color-n-0: var(--n-0);
+  --color-teal-700: #014745;
+  --color-teal-800: #013c3b;
+  --color-red-600: #fd4740;
+  --color-red-800: #cb0a04;
+  --leading-150: 150%;
+  --leading-140: 140%;
+  --leading-120: 120%;
+  --leading-130: 130%;
+  --ease-sine: cubic-bezier(0.47, 0, 0.745, 0.715);
+}
+/* Text Utilities */
+@utility text-1 {
+  @apply text-2xl font-bold leading-140;
+}
+@utility text-2 {
+  @apply text-xl font-bold leading-120;
+}
+@utility text-2-semibold {
+  @apply text-xl font-semibold leading-120;
+}
+@utility text-3 {
+  @apply text-base font-semibold leading-130;
+}
+@utility text-3-medium {
+  @apply text-base font-medium leading-130;
+}
+@utility text-4 {
+  @apply text-sm leading-140 font-semibold;
+}
+@utility text-4-medium {
+  @apply text-sm font-medium leading-150;
+}
+@utility text-5 {
+  @apply text-xs leading-140 font-medium;
+}
+/* Help Utilities */
+@utility flex-center {
+  @apply flex items-center justify-center;
+}
+@utility absolute-center {
+  @apply absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2;
+}
+@utility button-shadow-xs {
+  @apply shadow-[0px_0px_0px_1px] shadow-[rgba(34,38,39,0.12)];
+}
+@utility inset-shadow {
+  @apply shadow-[inset_0px_2px_1px_1px] shadow-[rgba(255,255,255,0.12)];
+}
+@utility btn-xs-inset {
+  box-shadow: inset 0px 1px 2px 1px rgba(21, 21, 21, 0.1),
+    inset 0px 0px 0px 1px rgba(34, 38, 39, 0.12);
+}
+@utility focused-ring {
+  @apply ring-2 ring-teal-700 data-[error=true]:ring-red-800 ring-offset-4 ring-offset-n-0 dark:ring-offset-n-800;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-n-100 dark:bg-n-900 dark:text-n-0 text-n-900;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  /* Remove default focus outlines (we provide focused-ring utility) */
+  input,
+  textarea,
+  select,
+  button {
+    outline: 0;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-n-300 dark:bg-n-600 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-n-500 dark:bg-n-400 rounded-full;
+  }
+}
+/* ----------------
+   Components (reusable semantic classes)
+   ---------------- */
+@layer components {
+  button {
+    @apply cursor-pointer;
+  }
+  .required::after {
+    content: "*";
+    @apply ml-0.5 text-inherit;
+  }
+  .required-dark::after {
+    content: "*";
+    @apply ml-0.5 text-red-600;
+  }
+  .text-subtle {
+    @apply text-n-800 dark:text-n-100;
+  }
+  .divider {
+    @apply border-n-300 dark:border-n-500;
+  }
+  .card-shadow {
+    box-shadow: 0px 2px 4px rgba(21, 21, 21, 0.06);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ----------------  KEYFRAMES   -----------------*/
+/*Overlays*/
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@utility animate-fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+@utility animate-fade-out {
+  animation: fade-out 0.3s ease forwards;
+}
+/* Form Modal */
+@keyframes pop-in-fade {
+  0% {
+    scale: 0.95;
+    opacity: 0;
+  }
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+@keyframes pop-out-fade {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+  100% {
+    scale: 0.95;
+    opacity: 0;
+  }
+}
+@utility animate-pop-in-fade {
+  animation: pop-in-fade cubic-bezier(0.47, 0, 0.745, 0.715) 0.5s;
+}
+@utility animate-pop-out-fade {
+  animation: pop-out-fade cubic-bezier(0.47, 0, 0.745, 0.715) 0.5s;
+}
+/* DROPDOWN */
+@keyframes dropdown-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.95);
+    transform-origin: top center;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    transform-origin: top center;
+  }
+}
+@keyframes dropdown-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    transform-origin: top center;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px) scaleY(0.95);
+    transform-origin: top center;
+  }
+}
+@utility animate-dropdown-in {
+  animation: dropdown-in 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+}
+@utility animate-dropdown-out {
+  animation: dropdown-out 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
 }
