@@ -1,3 +1,4 @@
+import ForgotPasswordForm from "@/components/layout/auth/ForgotPasswordForm";
 import Link from "next/link";
 import React from "react";
 
@@ -10,7 +11,7 @@ const ForgotPassword = () => {
           Enter your email address below and we’ll send you a link to reset your password.
         </p>
       </div>
-      {/* SignInForm gies here  */}
+      <ForgotPasswordForm />
 
       <Link href="/sign-in" className="text-4-medium text-center w-full">
         Back to login

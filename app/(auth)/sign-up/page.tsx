@@ -1,3 +1,4 @@
+import SignUpForm from "@/components/layout/auth/SignUpForm";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -10,7 +11,7 @@ export default function SignUpPage() {
           reach.
         </p>
       </div>
-      {/* SignInForm gies here  */}
+      <SignUpForm />
 
       <p className="text-4-medium text-subtle w-full text-center">
         Already have an account?{" "}

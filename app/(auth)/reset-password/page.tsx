@@ -1,3 +1,4 @@
+import ResetPasswordForm from "@/components/layout/auth/ResetPasswordForm";
 import Link from "next/link";
 
 export default function ResetPassword() {
@@ -9,7 +10,7 @@ export default function ResetPassword() {
           Enter your new password below. Make sure it’s strong and secure.
         </p>
       </div>
-      {/* SignInForm gies here  */}
+      <ResetPasswordForm />
       <Link href="/sign-in" className="text-4-medium text-center w-full">
         Back to login
       </Link>
