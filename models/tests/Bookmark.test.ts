@@ -1,10 +1,13 @@
 import { clearDb, connectTestDb, disconnectTestDb } from "@/__tests__/setupTestDB";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { Bookmark } from "../Bookmark";
+import { user } from "@/constants/data/data";
+import { email } from "zod";
 
 const bookmarkFactory = (
   overrides?: Partial<{ title: string; url: string; description: string; tags: string[] }>
 ) => ({
+  userId: "64a7b2f4f1c2e3d4b5a6c7d8",
   title: "Sample Bookmark",
   url: "https://example.com",
   description: "This is a sample bookmark.",
@@ -29,6 +32,7 @@ describe("Bookmark model", () => {
   it("creates a valid bookmark with defaults", async () => {
     const bookmark = await Bookmark.create(bookmarkFactory());
     expect(bookmark._id).toBeDefined();
+    expect(bookmark.userId.toString()).toBe("64a7b2f4f1c2e3d4b5a6c7d8");
     expect(bookmark.title).toBe("Sample Bookmark");
     expect(bookmark.url).toBe("https://example.com");
     expect(bookmark.description).toBe("This is a sample bookmark.");
@@ -40,22 +44,40 @@ describe("Bookmark model", () => {
     expect(bookmark.createdAt).toBeInstanceOf(Date);
     expect(bookmark.updatedAt).toBeInstanceOf(Date);
   });
-  describe("required fields", () => {
-    const cases = [
-      { label: "missing title", data: { url: "https://x.com", description: "d", tags: ["tag"] } },
-      { label: "missing url", data: { title: "X", description: "d", tags: ["tag"] } },
-      { label: "missing description", data: { title: "X", url: "https://x.com", tags: ["tag"] } },
-    ];
-
-    it.each(cases)("rejects $label", async ({ data }) => {
-      expect.assertions(1);
-      await expect(
-        Bookmark.create(data as Partial<{ name: string; email: string; passwordHash: string }>)
-      ).rejects.toMatchObject({
-        name: "ValidationError",
-      });
-    });
+  it("throws error when userId is missing", async () => {
+    await expect(
+      Bookmark.create({
+        title: "No User ID",
+        url: "https://nouserid.com",
+        description: "Testing missing userId.",
+        tags: ["test"],
+      })
+    ).rejects.toThrow();
   });
+  it("throws error when title,description or url is missing", async () => {
+    await expect(
+      Bookmark.create(
+        bookmarkFactory({
+          title: "",
+        })
+      )
+    ).rejects.toThrow();
+    await expect(
+      Bookmark.create(
+        bookmarkFactory({
+          url: "",
+        })
+      )
+    ).rejects.toThrow();
+    await expect(
+      Bookmark.create(
+        bookmarkFactory({
+          description: "",
+        })
+      )
+    ).rejects.toThrow();
+  });
+
   it("rejects empty tags array", async () => {
     await expect(
       Bookmark.create(

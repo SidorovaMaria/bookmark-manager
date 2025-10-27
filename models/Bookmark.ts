@@ -1,6 +1,7 @@
-import { Document, model, models, Schema } from "mongoose";
+import { Document, model, models, Schema, Types } from "mongoose";
 
 export interface IBookmark extends Document {
+  userId: Types.ObjectId;
   title: string;
   url: string;
   favicon: string;
@@ -14,6 +15,7 @@ export interface IBookmark extends Document {
 
 const BookmarkSchema = new Schema<IBookmark>(
   {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true, trim: true },
     url: { type: String, required: true, trim: true },
     favicon: { type: String, trim: true },
