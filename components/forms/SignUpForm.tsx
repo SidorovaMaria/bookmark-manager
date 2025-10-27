@@ -18,6 +18,9 @@ const SignUpForm = () => {
     },
     mode: "onBlur",
   });
+  const {
+    formState: { isSubmitting },
+  } = form;
   const onSubmit = async (data: SignupOutput) => {
     const result = await signUp(data);
     if ("error" in result) {
@@ -41,7 +44,7 @@ const SignUpForm = () => {
         <InputForm name="email" label="Email address" type="email" required />
         <InputForm name="password" label="Password" type="password" required />
         <Button type="submit" tier="primary">
-          Create Account
+          {isSubmitting ? "Creating your account..." : "Create Account"}
         </Button>
       </form>
     </FormProvider>

@@ -17,6 +17,9 @@ const SignInForm = () => {
     },
     mode: "onBlur",
   });
+  const {
+    formState: { isSubmitting },
+  } = form;
   const onSubmit = async (data: SignInOutput) => {
     const result = await signIn(data);
     if ("error" in result) {
@@ -44,7 +47,7 @@ const SignInForm = () => {
           placeholder="Enter your password"
         />
         <Button type="submit" tier="primary">
-          Login
+          {isSubmitting ? "Signing you in..." : "Sign In"}
         </Button>
       </form>
     </FormProvider>
