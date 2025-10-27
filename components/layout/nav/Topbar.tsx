@@ -24,9 +24,11 @@ import Input from "@/components/ui/Input";
 import FormModal from "@/components/ui/FormModal";
 import BookmarkForm from "../bookmark/BookmarkForm";
 import DropDown from "@/components/ui/DropDown";
-import ProfileMenu from "../ProfileMenu";
-import { user } from "@/data/data";
+import ProfileMenu, { fallbackAvatarSrc } from "../ProfileMenu";
 import { useDebounce } from "@/hooks/useDebounce";
+import { logOut } from "@/auth/actions";
+import { useUser } from "@/context/provider";
+import { toast } from "@/components/ui/Toast";
 
 type TopBarProps = {
   /** Controls the sidebar on small screens. */
@@ -34,6 +36,7 @@ type TopBarProps = {
 };
 
 const Topbar = ({ setOpenSidebar }: TopBarProps) => {
+  const user = useUser();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -59,6 +62,13 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
     if (next !== current) router.replace(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debounced, pathname, router]);
+  const handleLogout = async () => {
+    toast({
+      title: "Logging out...",
+      icon: "check",
+    });
+    await logOut();
+  };
   return (
     <header
       role="banner"
@@ -115,13 +125,13 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
           </Button>
         </FormModal>
 
-        <DropDown dropDownContent={<ProfileMenu user={user} />}>
+        <DropDown dropDownContent={<ProfileMenu user={user} onLogout={handleLogout} />}>
           <Image
-            src="/images/image-avatar.webp"
+            src={user.image || fallbackAvatarSrc}
             alt="Open profile menu"
             width={40}
             height={40}
-            className="rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer w-auto h-auto"
             priority
           />
         </DropDown>

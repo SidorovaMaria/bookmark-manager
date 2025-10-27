@@ -13,12 +13,12 @@
  *
  */
 import clsx from "clsx";
-import { Archive, Check, Copy, Pin, RotateCcw, Trash, X } from "lucide-react";
+import { Archive, Check, Copy, OctagonAlert, Pin, RotateCcw, Trash, X } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { toast as sonnerToast } from "sonner";
 
 // Available toast icons
-export type ToastIconName = "check" | "copy" | "pin" | "store" | "restore" | "trash";
+export type ToastIconName = "check" | "copy" | "pin" | "store" | "restore" | "trash" | "error";
 
 // Mapping of icon names to Lucide icon components
 const TOAST_ICONS: Record<ToastIconName, LucideIcon> = {
@@ -28,6 +28,7 @@ const TOAST_ICONS: Record<ToastIconName, LucideIcon> = {
   store: Archive,
   restore: RotateCcw,
   trash: Trash,
+  error: OctagonAlert,
 };
 
 interface ToastOptions {
@@ -38,13 +39,14 @@ interface ToastOptions {
   /** Duration in milliseconds before auto-dismissal (default per Sonner config). */
   duration?: number;
   dismissible?: boolean;
+  error?: boolean;
 }
 interface InnerToastProps extends ToastOptions {
   id: string | number;
 }
 
 export function toast(opts: ToastOptions) {
-  const { duration = 1000 } = opts;
+  const { duration = 3000 } = opts;
   return sonnerToast.custom(
     (id) => <InnerToast id={id} {...opts} />,
     // Sonner options (not DOM props)
@@ -54,17 +56,18 @@ export function toast(opts: ToastOptions) {
 
 /** A fully custom toast that still maintains the animations and interactions. */
 function InnerToast(props: InnerToastProps) {
-  const { title, icon, id, dismissible = true } = props;
+  const { title, icon, id, dismissible = true, error = false } = props;
   const Icon = TOAST_ICONS[icon];
   return (
     <div
-      role="status"
-      aria-live="polite"
+      role={error ? "alert" : "status"}
+      aria-live={error ? "assertive" : "polite"}
       className={clsx(
         "min-w-[320px] max-w-[440px]",
         "flex items-center gap-3 px-3 py-2.5 rounded-lg",
         "bg-n-0  dark:bg-n-500 ",
-        "border border-n-300 dark:border-n-400 shadow-[0px_6px_9px] shadow-[rgba(12,12,12,0,12)]"
+        "border border-n-300 dark:border-n-400 shadow-[0px_6px_9px] shadow-[rgba(12,12,12,0,12)]",
+        error && "bg-red-800!"
       )}
     >
       {/* ICON */}

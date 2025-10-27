@@ -4,6 +4,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   passwordHash: string;
+  salt: string;
   image?: string;
   lastLoginAt?: Date;
   signInCount: number;
@@ -28,6 +29,7 @@ const UserSchema = new Schema<IUser>(
       lowercase: true,
       trim: true,
     },
+    salt: { type: String, required: true },
     passwordHash: { type: String, required: true },
     image: { type: String },
     lastLoginAt: Date,

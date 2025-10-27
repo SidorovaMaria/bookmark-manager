@@ -1,4 +1,4 @@
-import ForgotPasswordForm from "@/components/layout/auth/ForgotPasswordForm";
+import ForgotPasswordForm from "@/components/forms/ForgotPasswordForm";
 import Link from "next/link";
 import React from "react";
 

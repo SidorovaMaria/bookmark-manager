@@ -1,5 +1,5 @@
 import BookMarkCard from "@/components/layout/bookmark/BookmarkCard";
-import { bookmarks } from "@/data/data";
+import { bookmarks } from "@/constants/data/data";
 
 export default async function HomePage({
   searchParams,

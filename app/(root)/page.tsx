@@ -1,5 +1,5 @@
 import BookMarkCard from "@/components/layout/bookmark/BookmarkCard";
-import { bookmarks } from "@/data/data";
+import { bookmarks } from "@/constants/data/data";
 
 export default async function HomePage({
   searchParams,
@@ -26,9 +26,9 @@ export default async function HomePage({
   if (bookmarksToShow.length > 0) {
     return (
       <section className="grid grid-cols1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-8 overflow-auto">
-        {bookmarksToShow.map((bookmark) => (
+        {/* {bookmarksToShow.map((bookmark) => (
           <BookMarkCard key={bookmark.id} bookmark={bookmark} />
-        ))}
+        ))} */}
       </section>
     );
   }

@@ -23,7 +23,7 @@ import { Archive, Home, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import NavItem from "@/components/ui/NavItem";
-import { tagCounts } from "@/data/data";
+import { tagCounts } from "@/constants/data/data";
 
 type SideBarProps = {
   open: boolean;

@@ -43,12 +43,12 @@ const connectDb = async (): Promise<Mongoose> => {
   if (!cached.promise) {
     console.log("Creating new connection");
     mongoose.set("strictQuery", true);
-    if (process.env.NODE_ENV === "development") {
-      mongoose.set("debug", (coll, method, query, doc) => {
-        // Keep logs concise to avoid noisy output in large payloads
-        console.log(`[Mongoose] ${coll}.${method}`, JSON.stringify(query), doc ?? "");
-      });
-    }
+    // if (process.env.NODE_ENV === "development") {
+    //   mongoose.set("debug", (coll, method, query, doc) => {
+    //     // Keep logs concise to avoid noisy output in large payloads
+    //     console.log(`[Mongoose] ${coll}.${method}`, JSON.stringify(query), doc ?? "");
+    //   });
+    // }
     cached.promise = mongoose
       .connect(MONGODB_URI, {
         dbName: "bookmark-manager",

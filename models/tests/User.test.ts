@@ -3,11 +3,12 @@ import { User } from "../User";
 import { clearDb, connectTestDb, disconnectTestDb } from "@/__tests__/setupTestDB";
 
 const userFactory = (
-  overrides?: Partial<{ name: string; email: string; passwordHash: string }>
+  overrides?: Partial<{ name: string; email: string; passwordHash: string; salt: string }>
 ) => ({
   name: "John Doe",
   email: "johndoe@example.com",
   passwordHash: "hashedpassword123",
+  salt: "randomsaltvalue",
   ...overrides,
 });
 
@@ -31,6 +32,7 @@ describe("User model", () => {
     expect(user._id).toBeDefined();
     expect(user.name).toBe("John Doe");
     expect(user.email).toBe("johndoe@example.com");
+    expect(user.salt).toBe("randomsaltvalue");
     expect(user.signInCount).toBe(0); // default
     expect(user.createdAt).toBeInstanceOf(Date);
     expect(user.updatedAt).toBeInstanceOf(Date);
@@ -41,6 +43,7 @@ describe("User model", () => {
       { label: "missing name", data: { email: "x@x.com", passwordHash: "h" } },
       { label: "missing email", data: { name: "X", passwordHash: "h" } },
       { label: "missing passwordHash", data: { name: "X", email: "x@x.com" } },
+      { label: "missing salt", data: { name: "X", email: "x@x.com", passwordHash: "h" } },
     ];
 
     it.each(cases)("rejects $label", async ({ data }) => {

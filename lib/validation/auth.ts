@@ -25,21 +25,6 @@ export const signupSchema = z.object({
 export type SignupInput = z.input<typeof signupSchema>;
 export type SignupOutput = z.output<typeof signupSchema>;
 
-export function parseSignup(body: unknown): SignupOutput {
-  return signupSchema.parse(body);
-}
-export function safeParseSignup(body: unknown):
-  | {
-      success: true;
-      data: SignupOutput;
-    }
-  | {
-      success: false;
-      error: z.ZodError<SignupInput>;
-    } {
-  return signupSchema.safeParse(body);
-}
-
 export const signInSchema = z.object({
   email: z
     .string()
@@ -52,21 +37,6 @@ export const signInSchema = z.object({
 
 export type SignInInput = z.input<typeof signInSchema>;
 export type SignInOutput = z.output<typeof signInSchema>;
-
-export function parseSignIn(body: unknown): SignInOutput {
-  return signInSchema.parse(body);
-}
-export function safeParseSignIn(body: unknown):
-  | {
-      success: true;
-      data: SignInOutput;
-    }
-  | {
-      success: false;
-      error: z.ZodError<SignInInput>;
-    } {
-  return signInSchema.safeParse(body);
-}
 
 export const sessionSchema = z.object({
   id: z.string(),

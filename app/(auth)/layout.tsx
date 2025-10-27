@@ -1,8 +1,9 @@
+import { getCurrentUser } from "@/auth/actions";
 import Logo from "@/components/ui/Logo";
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-const AuthLayout = ({ children }: { children: ReactNode }) => {
+const AuthLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <main className="w-screen h-screen flex-center px-4">
       <div

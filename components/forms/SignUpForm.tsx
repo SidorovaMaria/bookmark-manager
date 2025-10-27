@@ -1,9 +1,12 @@
 "use client";
+import { signUp } from "@/auth/actions";
 import Button from "@/components/ui/Button";
 import InputForm from "@/components/ui/InputForm";
-import { SignInOutput, SignupInput, SignupOutput, signupSchema } from "@/lib/validation/auth";
+import { SignupInput, SignupOutput, signupSchema } from "@/lib/validation/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "../ui/Toast";
+import { redirect } from "next/navigation";
 
 const SignUpForm = () => {
   const form = useForm<SignupInput, SignupOutput>({
@@ -15,8 +18,21 @@ const SignUpForm = () => {
     },
     mode: "onBlur",
   });
-  const onSubmit = (data: SignInOutput) => {
-    console.log(data);
+  const onSubmit = async (data: SignupOutput) => {
+    const result = await signUp(data);
+    if ("error" in result) {
+      toast({
+        title: result.error,
+        icon: "error",
+        error: true,
+      });
+    } else {
+      toast({
+        title: "Account created successfully!",
+        icon: "check",
+      });
+      redirect("/");
+    }
   };
   return (
     <FormProvider {...form}>

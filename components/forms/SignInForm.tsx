@@ -1,9 +1,12 @@
 "use client";
+import { signIn } from "@/auth/actions";
 import Button from "@/components/ui/Button";
 import InputForm from "@/components/ui/InputForm";
 import { SignInInput, SignInOutput, signInSchema } from "@/lib/validation/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
+import { toast } from "../ui/Toast";
+import { redirect } from "next/navigation";
 
 const SignInForm = () => {
   const form = useForm<SignInInput, SignInOutput>({
@@ -14,8 +17,21 @@ const SignInForm = () => {
     },
     mode: "onBlur",
   });
-  const onSubmit = (data: SignInOutput) => {
-    console.log(data);
+  const onSubmit = async (data: SignInOutput) => {
+    const result = await signIn(data);
+    if ("error" in result) {
+      toast({
+        title: result.error,
+        icon: "error",
+        error: true,
+      });
+    } else {
+      toast({
+        title: "Signed in successfully!",
+        icon: "check",
+      });
+      redirect("/");
+    }
   };
   return (
     <FormProvider {...form}>

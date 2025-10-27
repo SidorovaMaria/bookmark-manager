@@ -21,22 +21,19 @@ import ThemeToggle from "../ui/ThemeToggle";
 import { LogOut, Palette } from "lucide-react";
 import { useState } from "react";
 import clsx from "clsx";
+import { SafeUserType } from "@/context/provider";
+
+export const fallbackAvatarSrc = "/images/fallback-avatar.jpg";
+
 type ProfileMenuProps = {
-  user: {
-    name: string;
-    /** Public path or remote URL; if it fails, we show a fallback. */
-    avatar: string;
-    email: string;
-  };
+  user: SafeUserType;
   /** Close the parent dropdown/popover after an action (optional). */
   closeDropdown?: () => void;
   /** Logout handler. If omitted, the Logout row renders disabled. */
   onLogout?: () => Promise<void> | void;
 };
 const ProfileMenu = ({ user, closeDropdown, onLogout }: ProfileMenuProps) => {
-  const fallbackAvatarSrc = "/images/fallback-avatar.jpg";
-  const [avatarSrc, setAvatarSrc] = useState<string>(user.avatar);
-  // TODO : Add Logout functionality
+  const [avatarSrc, setAvatarSrc] = useState<string>(user.image || fallbackAvatarSrc);
   const handleLogout = async () => {
     if (!onLogout) return;
     try {
