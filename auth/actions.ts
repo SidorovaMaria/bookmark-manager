@@ -82,7 +82,8 @@ export async function signUp(formData: SignupOutput): Promise<{ ok: true } | { e
 
     await createUserSession(String(user._id), await cookies());
     return { ok: true };
-  } catch {
+  } catch (error) {
+    console.error("Error during sign-up:", error);
     return { error: "Internal server error during sign-up." };
   }
 }
@@ -91,7 +92,6 @@ export async function signUp(formData: SignupOutput): Promise<{ ok: true } | { e
  */
 export async function logOut() {
   await removeUserFromSession(await cookies());
-  redirect("/sign-in");
 }
 /**
  * Internal: fetch the current user (optionally redirect if missing).
