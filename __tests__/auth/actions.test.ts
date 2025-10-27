@@ -132,12 +132,14 @@ describe("auth/actions.ts", () => {
   it("signIn: handles internal errors", async () => {
     // simulate DB connection failure
     const { connectDb } = await import("@/lib/mongodb");
+    const createSpy = vi.spyOn(User, "create").mockImplementationOnce(async () => null!);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (connectDb as any).mockImplementationOnce(async () => {
       throw new Error("DB down");
     });
     const res = await signIn({ email: "test@example.com", password: "CorrectPassword!" });
     expect(res).toEqual({ error: "Internal server error during sign-in." });
+    createSpy.mockRestore();
   });
   // ================= LOGOUT TESTS =================
   it("check cookie exist before logout and clears session on logout", async () => {
