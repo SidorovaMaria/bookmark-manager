@@ -25,7 +25,7 @@ export const baseWrapperClass =
   "text-4-medium flex items-center gap-2 " +
   "placeholder:text-n-800 dark:placeholder:text-n-100 " +
   "hover:bg-n-100 dark:hover:bg-n-500 has-focus:focused-ring " +
-  "shadow-[0_1px_2px] shadow-[#0A0D1280] dark:shadow-[#ffffff80]";
+  "button-shadow-xs ";
 
 type BaseProps<T extends FieldValues> = {
   /** react-hook-form field name (supports nested paths like "address.city"). */
