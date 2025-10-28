@@ -1,6 +1,19 @@
 {
   "bookmarks": [
     {
+      "id": "bm-000",
+      "title": "Maria Sidorova Portfolio",
+      "url": "https://maria-sidorova-portoflio.vercel.app/",
+      "favicon": "/favicons/favicon-maria.png",
+      "description": "This is my portfolio website. I would really appreciate your feedback!",
+      "tags": ["Portfolio", "Personal", "Feedback"],
+      "pinned": true,
+      "isArchived": false,
+      "visitCount": 0,
+      "createdAt": "2025-01-01T12:00:00Z",
+      "lastVisitedAt": "2025-06-01T12:00:00Z"
+    },
+    {
       "id": "bm-001",
       "title": "GitHub",
       "url": "https://github.com",
@@ -11,7 +24,7 @@
       "isArchived": false,
       "visitCount": 198,
       "createdAt": "2024-01-05T06:00:00Z",
-      "lastVisited": "2025-09-24T15:30:00Z"
+      "lastVisitedAt": "2025-09-24T15:30:00Z"
     },
     {
       "id": "bm-002",
@@ -24,7 +37,7 @@
       "isArchived": false,
       "visitCount": 234,
       "createdAt": "2024-01-08T07:30:00Z",
-      "lastVisited": "2025-09-24T11:00:00Z"
+      "lastVisitedAt": "2025-09-24T11:00:00Z"
     },
     {
       "id": "bm-003",
@@ -37,7 +50,7 @@
       "isArchived": false,
       "visitCount": 152,
       "createdAt": "2024-01-10T08:15:00Z",
-      "lastVisited": "2025-09-24T09:20:00Z"
+      "lastVisitedAt": "2025-09-24T09:20:00Z"
     },
     {
       "id": "bm-004",
@@ -50,7 +63,7 @@
       "isArchived": false,
       "visitCount": 89,
       "createdAt": "2024-01-12T11:45:00Z",
-      "lastVisited": "2025-09-22T16:30:00Z"
+      "lastVisitedAt": "2025-09-22T16:30:00Z"
     },
     {
       "id": "bm-005",
@@ -63,7 +76,7 @@
       "isArchived": false,
       "visitCount": 47,
       "createdAt": "2024-01-15T10:30:00Z",
-      "lastVisited": "2025-09-23T14:45:00Z"
+      "lastVisitedAt": "2025-09-23T14:45:00Z"
     },
     {
       "id": "bm-006",
@@ -76,7 +89,7 @@
       "isArchived": false,
       "visitCount": 23,
       "createdAt": "2024-01-18T13:20:00Z",
-      "lastVisited": "2025-09-10T11:15:00Z"
+      "lastVisitedAt": "2025-09-10T11:15:00Z"
     },
     {
       "id": "bm-007",
@@ -89,7 +102,7 @@
       "isArchived": false,
       "visitCount": 67,
       "createdAt": "2024-01-20T14:15:00Z",
-      "lastVisited": "2025-09-20T10:00:00Z"
+      "lastVisitedAt": "2025-09-20T10:00:00Z"
     },
     {
       "id": "bm-008",
@@ -102,7 +115,7 @@
       "isArchived": false,
       "visitCount": 34,
       "createdAt": "2024-01-25T16:45:00Z",
-      "lastVisited": "2025-09-18T17:30:00Z"
+      "lastVisitedAt": "2025-09-18T17:30:00Z"
     },
     {
       "id": "bm-009",
@@ -115,7 +128,7 @@
       "isArchived": false,
       "visitCount": 8,
       "createdAt": "2024-02-01T09:00:00Z",
-      "lastVisited": "2025-07-15T15:45:00Z"
+      "lastVisitedAt": "2025-07-15T15:45:00Z"
     },
     {
       "id": "bm-010",
@@ -128,7 +141,7 @@
       "isArchived": true,
       "visitCount": 12,
       "createdAt": "2024-02-01T09:30:00Z",
-      "lastVisited": "2025-06-12T14:20:00Z"
+      "lastVisitedAt": "2025-06-12T14:20:00Z"
     },
     {
       "id": "bm-011",
@@ -141,7 +154,7 @@
       "isArchived": false,
       "visitCount": 28,
       "createdAt": "2024-02-05T10:20:00Z",
-      "lastVisited": "2025-08-30T13:40:00Z"
+      "lastVisitedAt": "2025-08-30T13:40:00Z"
     },
     {
       "id": "bm-012",
@@ -154,7 +167,7 @@
       "isArchived": false,
       "visitCount": 41,
       "createdAt": "2024-02-08T11:30:00Z",
-      "lastVisited": "2025-09-15T09:15:00Z"
+      "lastVisitedAt": "2025-09-15T09:15:00Z"
     },
     {
       "id": "bm-013",
@@ -167,7 +180,7 @@
       "isArchived": false,
       "visitCount": 19,
       "createdAt": "2024-02-10T15:00:00Z",
-      "lastVisited": "2025-09-21T08:45:00Z"
+      "lastVisitedAt": "2025-09-21T08:45:00Z"
     },
     {
       "id": "bm-014",
@@ -180,7 +193,7 @@
       "isArchived": false,
       "visitCount": 52,
       "createdAt": "2024-02-12T09:45:00Z",
-      "lastVisited": "2025-09-19T16:10:00Z"
+      "lastVisitedAt": "2025-09-19T16:10:00Z"
     },
     {
       "id": "bm-015",
@@ -193,7 +206,7 @@
       "isArchived": false,
       "visitCount": 15,
       "createdAt": "2024-02-15T12:20:00Z",
-      "lastVisited": "2025-08-16T14:55:00Z"
+      "lastVisitedAt": "2025-08-16T14:55:00Z"
     },
     {
       "id": "bm-016",
@@ -206,7 +219,7 @@
       "isArchived": false,
       "visitCount": 73,
       "createdAt": "2024-02-18T10:15:00Z",
-      "lastVisited": "2025-09-23T11:20:00Z"
+      "lastVisitedAt": "2025-09-23T11:20:00Z"
     },
     {
       "id": "bm-017",
@@ -219,7 +232,7 @@
       "isArchived": false,
       "visitCount": 0,
       "createdAt": "2024-02-20T14:30:00Z",
-      "lastVisited": null
+      "lastVisitedAt": null
     },
     {
       "id": "bm-018",
@@ -232,7 +245,7 @@
       "isArchived": true,
       "visitCount": 6,
       "createdAt": "2024-02-22T08:50:00Z",
-      "lastVisited": "2025-04-18T15:30:00Z"
+      "lastVisitedAt": "2025-04-18T15:30:00Z"
     }
   ]
 }
