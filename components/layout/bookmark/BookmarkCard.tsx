@@ -18,13 +18,14 @@ import Tag from "@/components/ui/Tag";
 import FormModal from "@/components/ui/FormModal";
 import BookmarkForm from "./BookmarkForm";
 import BookmarkDropdown from "./BookmarkDropdown";
+import { IBookmark } from "@/models/Bookmark";
 
 //
-const BookMarkCard = ({ bookmark }: { bookmark: BookmarkType }) => {
+const BookMarkCard = ({ bookmark }: { bookmark: IBookmark }) => {
   const { title, url, favicon, description, tags, isArchived, pinned } = bookmark;
-  const createdAt = format(new Date(bookmark.createdAt), "dd MMM");
-  const lastVisited = bookmark.lastVisited
-    ? format(new Date(bookmark.lastVisited), "dd MMM")
+  const createdAt = format(new Date(bookmark.createdAt!), "dd MMM");
+  const lastVisited = bookmark.lastVisitedAt
+    ? format(new Date(bookmark.lastVisitedAt), "dd MMM")
     : "Never";
   const [edit, setEdit] = useState(false);
   return (
@@ -37,7 +38,13 @@ const BookMarkCard = ({ bookmark }: { bookmark: BookmarkType }) => {
         {/* Header */}
         <div className="flex items-center w-full gap-3">
           <div className="w-10 h-10 rounded-md relative border border-n-100 dark:border-n-500 shrink-0">
-            <Image src={favicon} alt={`${title} favicon`} fill className="rounded-md" />
+            <Image
+              src={favicon || "/images/fallback-avatar.jpg"}
+              alt={`${title} favicon`}
+              fill
+              sizes="38"
+              className="rounded-md"
+            />
           </div>
           <div className="flex flex-col gap-1 w-full ">
             <p className="text-2">{title}</p>

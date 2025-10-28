@@ -2,7 +2,7 @@ import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import { User } from "../User";
 import { clearDb, connectTestDb, disconnectTestDb } from "@/__tests__/setupTestDB";
 
-const userFactory = (
+export const userFactory = (
   overrides?: Partial<{ name: string; email: string; passwordHash: string; salt: string }>
 ) => ({
   name: "John Doe",

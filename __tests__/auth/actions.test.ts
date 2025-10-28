@@ -155,7 +155,7 @@ describe("auth/actions.ts", () => {
   });
   // ================= GET CURRENT USER TESTS =================
   it("getCurrentUser: returns null when no session (redirect=false)", async () => {
-    const res = await getCurrentUser({ redirect: false, userdata: false });
+    const res = await getCurrentUser({ redirect: false });
     expect(res).toBeNull();
   });
   it("getCurrentUser: returns user data when session valid", async () => {

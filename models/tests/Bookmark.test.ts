@@ -1,10 +1,7 @@
 import { clearDb, connectTestDb, disconnectTestDb } from "@/__tests__/setupTestDB";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { Bookmark } from "../Bookmark";
-import { user } from "@/constants/data/data";
-import { email } from "zod";
-
-const bookmarkFactory = (
+export const bookmarkFactory = (
   overrides?: Partial<{ title: string; url: string; description: string; tags: string[] }>
 ) => ({
   userId: "64a7b2f4f1c2e3d4b5a6c7d8",

@@ -22,6 +22,14 @@ import { LogOut, Palette } from "lucide-react";
 import { useState } from "react";
 import clsx from "clsx";
 import { SafeUserType } from "@/context/provider";
+import Button from "../ui/Button";
+import {
+  havePopulatedDemoBookmarks,
+  populateDemoBookmarks,
+  removeDemoBookmarks,
+} from "@/lib/actions/bookmark.action";
+import { toast } from "../ui/Toast";
+import { usePathname } from "next/navigation";
 
 export const fallbackAvatarSrc = "/images/fallback-avatar.jpg";
 
@@ -34,6 +42,7 @@ type ProfileMenuProps = {
 };
 const ProfileMenu = ({ user, closeDropdown, onLogout }: ProfileMenuProps) => {
   const [avatarSrc, setAvatarSrc] = useState<string>(user.image || fallbackAvatarSrc);
+  const pathname = usePathname();
   const handleLogout = async () => {
     if (!onLogout) return;
     try {
@@ -42,6 +51,25 @@ const ProfileMenu = ({ user, closeDropdown, onLogout }: ProfileMenuProps) => {
       // Close the menu regardless of success; adjust if you want to keep it open on error
       closeDropdown?.();
     }
+  };
+  const populateDemo = async () => {
+    const result = await havePopulatedDemoBookmarks(String(user._id));
+    if (result.ok && result.populated) {
+      const result = await removeDemoBookmarks(String(user._id), pathname);
+      if (result.ok) {
+        toast({ title: "Demo bookmarks removed.", icon: "check" });
+      } else {
+        toast({ title: "Failed to remove demo bookmarks.", icon: "trash" });
+      }
+    } else {
+      const result = await populateDemoBookmarks(String(user._id), pathname);
+      if (result.ok) {
+        toast({ title: "Demo bookmarks added.", icon: "check" });
+      } else {
+        toast({ title: "Failed to add demo bookmarks.", icon: "trash" });
+      }
+    }
+    closeDropdown?.();
   };
 
   return (
@@ -53,15 +81,19 @@ const ProfileMenu = ({ user, closeDropdown, onLogout }: ProfileMenuProps) => {
           alt={`${user.name} avatar`}
           width={40}
           height={40}
-          className="rounded-full object-cover"
+          className="rounded-full object-cover w-10 h-10 object-center"
           onError={() => setAvatarSrc(fallbackAvatarSrc)}
           priority
         />
+
         <div className="flex flex-col ">
           <p className="text-4">{user.name}</p>
           <p className="text-4-medium text-subtle">{user.email}</p>
         </div>
       </div>
+      <Button onClick={populateDemo} tier="secondary" size="sm">
+        Toggle Demo Bookmarks
+      </Button>
       {/* Toggle Theme */}
       <div className="px-2 py-1">
         <div className="p-1 rounded-md flex items-center gap-2.5">

@@ -3,6 +3,15 @@
 
 import { toast } from "@/components/ui/Toast";
 import { actionMap, DropdDownAction } from "@/constants/actions";
+import {
+  archiveBookmark,
+  deleteBookmark,
+  incrementBookmarkVisitCount,
+  pinBookmark,
+  unarchiveBookmark,
+  unpinBookmark,
+} from "@/lib/actions/bookmark.action";
+import { IBookmark } from "@/models/Bookmark";
 /**
  * CardDropDown — Radix Dropdown items for a Bookmark card.
  *
@@ -25,7 +34,7 @@ export const dropdownStyleWrapper =
   "flex items-center w-full justify-start gap-2.5 p-2 rounded-md text-4 hover:bg-n-100 dark:hover:bg-n-500 cursor-pointer transition-all duration-300 focus-visible:focused-ring dark:focus:ring-offset-n-800 dark:focus:ring-n-100 focus:outline-none";
 
 type CardDropDownProps = {
-  bookmark: BookmarkType;
+  bookmark: IBookmark;
   isArchived: boolean;
   isPinned: boolean;
   /** Open parent edit UI, if provided. */
@@ -35,9 +44,13 @@ const BookmarkDropdown = ({ bookmark, isArchived, isPinned, setEdit }: CardDropD
   const source = isArchived ? actionMap.archived : isPinned ? actionMap.pinned : actionMap.default;
   const actions = useMemo(() => source.map((key) => DropdDownAction[key]), [source]);
 
-  const visit = () => {
+  const visit = async () => {
     const win = window.open(bookmark.url, "_blank", "noopener,noreferrer");
     if (win) win.opener = null;
+    const result = await incrementBookmarkVisitCount({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to record visit.", icon: "trash" });
+    }
   };
   const copyUrl = async () => {
     try {
@@ -60,29 +73,49 @@ const BookmarkDropdown = ({ bookmark, isArchived, isPinned, setEdit }: CardDropD
       toast({ title: "Could not copy the link.", icon: "trash" });
     }
   };
-  const pin = () => {
-    // TODO: pin mutation
+  const pin = async () => {
+    const result = await pinBookmark({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to pin the bookmark.", icon: "trash" });
+      return;
+    }
     toast({ title: "Bookmark pinned to top.", icon: "pin" });
   };
-  const unpin = () => {
-    // TODO:  unpin mutation
+  const unpin = async () => {
+    const result = await unpinBookmark({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to unpin the bookmark.", icon: "trash" });
+      return;
+    }
     toast({ title: "Bookmark unpinned.", icon: "pin" });
   };
 
-  const archive = () => {
-    // TODO: wire to your archive mutation
+  const archive = async () => {
+    const result = await archiveBookmark({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to archive the bookmark.", icon: "trash" });
+      return;
+    }
     toast({ title: "Bookmark archived.", icon: "store" });
   };
-  const unarchive = () => {
-    // TODO: implement unarchive mutation
+  const unarchive = async () => {
+    const result = await unarchiveBookmark({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to restore the bookmark.", icon: "trash" });
+      return;
+    }
     toast({ title: "Bookmark restored.", icon: "restore" });
   };
 
   const edit = () => {
     setEdit?.(true);
   };
-  const del = () => {
-    // TODO:  delete mutation (with a confirm dialog)
+  const del = async () => {
+    const result = await deleteBookmark({ bookmarkId: String(bookmark._id) });
+    if (!result.ok) {
+      toast({ title: "Failed to delete the bookmark.", icon: "trash" });
+      return;
+    }
     toast({ title: "Bookmark deleted.", icon: "trash" });
   };
 

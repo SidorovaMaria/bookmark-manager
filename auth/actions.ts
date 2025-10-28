@@ -82,8 +82,7 @@ export async function signUp(formData: SignupOutput): Promise<{ ok: true } | { e
 
     await createUserSession(String(user._id), await cookies());
     return { ok: true };
-  } catch (error) {
-    console.error("Error during sign-up:", error);
+  } catch {
     return { error: "Internal server error during sign-up." };
   }
 }
@@ -101,10 +100,7 @@ export async function logOut() {
  * @returns `{ user }` or `null`
  */
 
-async function _getCurrentUser(options?: {
-  redirect?: boolean;
-  userdata?: boolean;
-}): Promise<{ user: Pick<IUser, "id" | "name" | "email" | "image"> | null } | null> {
+async function _getCurrentUser(options?: { redirect?: boolean; userdata?: boolean }) {
   const userId = await getUserFromSession(await cookies());
   if (!userId) {
     if (options?.redirect) redirect("/sign-in");
@@ -122,13 +118,14 @@ async function _getCurrentUser(options?: {
         return null;
       }
 
-      return { user };
+      return {
+        user: JSON.parse(JSON.stringify(user)) as IUser,
+      };
     }
 
     // Caller only needs to know that a valid user exists
-    return { user: null };
-  } catch (error) {
-    console.error("Error fetching current user:", error);
+    return { user: userId };
+  } catch {
     if (options?.redirect) redirect("/sign-in");
     return null;
   }

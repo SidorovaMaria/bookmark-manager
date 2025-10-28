@@ -1,26 +1,26 @@
 import { getCurrentUser } from "@/auth/actions";
 import BookmarksHeader from "@/components/layout/bookmark/BookmarksHeader";
 import Navigation from "@/components/layout/nav/Navigation";
-import UserProvider, { SafeUserType } from "@/context/provider";
+import { UserProvider } from "@/context/provider";
+import { getAllUserTags } from "@/lib/actions/bookmark.action";
+import { IUser } from "@/models/User";
+
 import clsx from "clsx";
 import { redirect } from "next/navigation";
 
 import React, { Suspense } from "react";
 
 const MainLayout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getCurrentUser({ redirect: false, userdata: true });
+  const user = (await getCurrentUser({ redirect: false, userdata: true })) as {
+    user: IUser;
+  } | null;
   if (!user) {
     redirect("/sign-in");
   }
-  const safeUser: SafeUserType = {
-    id: user.user!.id,
-    name: user.user!.name,
-    email: user.user!.email,
-    image: user.user!.image || null,
-  };
+  const tags = await getAllUserTags();
   return (
     <>
-      <UserProvider user={safeUser}>
+      <UserProvider user={user.user} tags={tags.ok ? tags.tags : []}>
         <Suspense fallback={<>...</>}>
           <Navigation />
         </Suspense>

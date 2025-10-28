@@ -23,7 +23,7 @@ import { Archive, Home, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
 import NavItem from "@/components/ui/NavItem";
-import { tagCounts } from "@/constants/data/data";
+import { useUserTags } from "@/context/provider";
 
 type SideBarProps = {
   open: boolean;
@@ -36,6 +36,7 @@ const Sidebar = ({ open, setOpen }: SideBarProps) => {
   // Show "Reset" button if any tag filters are active
   const [showReset, setShowReset] = React.useState(false);
   /** Read current tags from the URL (comma-separated). Always normalized to lowercase. */
+  const tags = useUserTags();
   const readTags = React.useCallback((): string[] => {
     const raw = searchParams.get("tag") || "";
     return raw
@@ -159,20 +160,21 @@ const Sidebar = ({ open, setOpen }: SideBarProps) => {
         {/* Tags list */}
         <div className="h-full overflow-auto pb-5 ml-4 pr-3 mr-1">
           <div className="flex flex-col gap-1">
-            {tagCounts.map(({ tag, count }) => {
-              const active = hasTag(tag);
-              return (
+            {tags.length === 0 ? (
+              <p className="text-4 capitalize text-center text-subtle">No tags Created.</p>
+            ) : (
+              tags.map(({ name, count }) => (
                 <NavItem
-                  key={tag}
+                  key={name}
                   checkbox
-                  active={active}
+                  active={hasTag(name)}
                   count={count}
-                  label={tag}
+                  label={name}
                   href="#"
-                  onToggle={() => toggleTag(tag)}
+                  onToggle={() => toggleTag(name)}
                 />
-              );
-            })}
+              ))
+            )}
           </div>
         </div>
       </div>

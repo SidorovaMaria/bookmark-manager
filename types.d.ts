@@ -32,3 +32,12 @@ type Cookies = {
   get: (key: string) => { name: string; value: string } | undefined;
   delete: (key: string) => void;
 };
+type sortByType = "rec-added" | "rec-visited" | "most-visited";
+type bookmarkSearchParams = {
+  query: string;
+  page: number;
+  limit: number;
+  sortby: sortByType;
+  withTags: string[];
+  archived: boolean;
+};

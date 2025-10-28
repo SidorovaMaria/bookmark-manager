@@ -11,6 +11,8 @@ export interface IBookmark extends Document {
   isArchived: boolean;
   visitCount: number;
   lastVisitedAt: Date;
+  createdAt: Date;
+  demo?: boolean;
 }
 
 const BookmarkSchema = new Schema<IBookmark>(
@@ -28,6 +30,7 @@ const BookmarkSchema = new Schema<IBookmark>(
         message: "At least one tag is required.",
       },
     },
+    demo: { type: Boolean, default: false },
     pinned: { type: Boolean, default: false },
     isArchived: { type: Boolean, default: false },
     visitCount: { type: Number, default: 0 },

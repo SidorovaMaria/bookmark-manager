@@ -21,11 +21,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
-import z from "zod";
 import { X } from "lucide-react";
 import InputForm from "@/components/ui/InputForm";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
+import { bookMarkInput, bookMarkOutput, bookmarkSchema } from "@/lib/validation/bookmark";
+import { createBookmark, editBookmark } from "@/lib/actions/bookmark.action";
+import { toast } from "@/components/ui/Toast";
+import { IBookmark } from "@/models/Bookmark";
 
 // ---------- Validation Schema ----------
 
@@ -37,31 +40,17 @@ import Button from "@/components/ui/Button";
  * - Custom error messages provided for better UX.
  * ? Maybe change the messages later to be more user friendly.
  */
-const bookMarkSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
-  url: z.url("Invalid URL").min(1, "URL is required"),
-  tags: z
-    .array(
-      z
-        .string()
-        .min(1, { message: "Tag is required." })
-        .max(30, { message: "Tag cannot exceed 30 characters." })
-    )
-    .min(1, { message: "At least one tag is required." }),
-});
+
 export type BookMarkFormProps = {
   /** If provided, fields are pre-filled and submit label switches to "Save Bookmark". */
-  bookmark?: BookmarkType;
+  bookmark?: IBookmark;
   /** Optional close callback (e.g., to close a modal). Called after successful submit and on explicit Cancel. */
   closeForm?: () => void;
 };
 
-type inputType = z.input<typeof bookMarkSchema>;
-type outputType = z.output<typeof bookMarkSchema>;
 const BookmarkForm = ({ bookmark, closeForm }: BookMarkFormProps) => {
-  const form = useForm<inputType, outputType>({
-    resolver: zodResolver(bookMarkSchema),
+  const form = useForm<bookMarkInput, bookMarkOutput>({
+    resolver: zodResolver(bookmarkSchema),
     defaultValues: {
       title: bookmark?.title ?? "",
       description: bookmark?.description ?? "",
@@ -87,10 +76,41 @@ const BookmarkForm = ({ bookmark, closeForm }: BookMarkFormProps) => {
   }) as string[];
 
   // Submit handler — call your API here, then close the form on success
-  const onSubmit = async (data: inputType) => {
-    console.log("Form submitted:", data);
-    // TODO: Call create/update API here.
-    closeForm?.();
+  const onSubmit = async (data: bookMarkOutput) => {
+    if (!bookmark) {
+      const { ok, error } = await createBookmark({ bookmark: data });
+      if (!ok) {
+        toast({
+          title: error || "Failed to save bookmark.",
+          icon: "error",
+          error: true,
+        });
+        return;
+      }
+      toast({
+        title: "Bookmark added successfully.",
+        icon: "check",
+      });
+      close();
+    } else {
+      const { ok, error } = await editBookmark({
+        bookmarkId: String(bookmark._id),
+        bookmark: data,
+      });
+      if (!ok) {
+        toast({
+          title: error || "Failed to save bookmark.",
+          icon: "error",
+          error: true,
+        });
+        return;
+      }
+      toast({
+        title: "Bookmark updated successfully.",
+        icon: "check",
+      });
+      close();
+    }
   };
 
   // Close helper — resets form and calls parent close (if provided)
@@ -108,7 +128,7 @@ const BookmarkForm = ({ bookmark, closeForm }: BookMarkFormProps) => {
     if (key !== "Enter" && key !== ",") return;
     e.preventDefault();
     const inputEl = e.target as HTMLInputElement;
-    const raw = inputEl.value.trim();
+    const raw = inputEl.value.trim().slice(0, 1).toUpperCase() + inputEl.value.trim().slice(1);
     if (!raw) return;
     const exists = tags.some((t) => t === raw);
     const moreThan30 = raw.length > 30;
