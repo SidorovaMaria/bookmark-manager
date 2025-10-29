@@ -120,7 +120,7 @@ export async function getUserBookmarks({
   searchParams,
 }: {
   searchParams: Partial<bookmarkSearchParams>;
-}): Promise<{ ok: true; bookmarks: IBookmark[] } | { ok: false; error: string }> {
+}): Promise<{ ok: true; bookmarks: IBookmark[]; count: number } | { ok: false; error: string }> {
   const userId = await getCurrentUser();
   if (!userId) {
     return { ok: false, error: "User not authenticated." };
@@ -157,6 +157,7 @@ export async function getUserBookmarks({
     return {
       ok: true,
       bookmarks: JSON.parse(JSON.stringify(bookmarks)),
+      count: await Bookmark.countDocuments(query),
     };
   } catch (error) {
     console.error(error);

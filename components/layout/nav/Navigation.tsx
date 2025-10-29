@@ -19,6 +19,7 @@ import React, { useState } from "react";
 import clsx from "clsx";
 import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
+import { isInput } from "@/constants";
 
 const Navigation = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
@@ -27,7 +28,7 @@ const Navigation = () => {
   React.useEffect(() => {
     if (!openSidebar) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenSidebar(false);
+      if (e.key === "Escape" && !isInput) setOpenSidebar(false);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);

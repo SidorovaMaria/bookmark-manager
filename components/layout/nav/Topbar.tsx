@@ -29,6 +29,7 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { logOut } from "@/auth/actions";
 import { useUser } from "@/context/provider";
 import { toast } from "@/components/ui/Toast";
+import { isInput } from "@/constants";
 
 type TopBarProps = {
   /** Controls the sidebar on small screens. */
@@ -56,7 +57,7 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
     const params = new URLSearchParams(searchParams.toString());
     if (debounced) params.set("search", debounced);
     else params.delete("search");
-
+    params.delete("page"); // Reset to first page on new search
     const next = `${pathname}?${params.toString()}`;
     const current = `${pathname}?${searchParams.toString()}`;
     if (next !== current) router.replace(next);
@@ -72,17 +73,17 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
   // Keyboard shortcut: focus search on s key press
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "s" && document.activeElement?.tagName !== "INPUT") {
+      if (e.key === "s" && !isInput) {
         e.preventDefault();
         const searchInput = document.getElementById("topbar-search");
         searchInput?.focus();
       }
-      if (e.key === "a") {
+      if (e.key === "a" && !isInput) {
         e.preventDefault();
         //navigate to archive page
         router.push("/archive");
       }
-      if (e.key === "h") {
+      if (e.key === "h" && !isInput) {
         e.preventDefault();
         //navigate to home page
         router.push("/");

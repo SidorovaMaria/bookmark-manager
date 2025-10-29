@@ -74,7 +74,7 @@ const Sidebar = ({ open, setOpen }: SideBarProps) => {
 
       if (next.length === 0) params.delete("tag");
       else params.set("tag", next.join(","));
-
+      params.delete("page"); // Reset to first page on tag change
       router.replace(`${pathname}?${params.toString()}`);
     },
     [pathname, router, searchParams, readTags]

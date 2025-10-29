@@ -27,7 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html lang="en" suppressHydrationWarning>
       <body className={`${manrope.variable} antialiased`}>
         <ThemeProvider
           attribute="class"

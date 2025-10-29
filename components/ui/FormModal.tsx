@@ -37,6 +37,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
 import { X } from "lucide-react";
 import Button from "./Button";
+import { isInput } from "@/constants";
 type ModalBodyProps = {
   /** Provided to your content so it can close the modal (e.g., after a successful submit). */
   closeForm?: () => void;
@@ -93,7 +94,7 @@ const FormModal = ({
   useEffect(() => {
     if (!openKey) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === openKey) {
+      if (e.key === openKey && !isInput) {
         if (!open) {
           e.preventDefault();
           setOpen(true);

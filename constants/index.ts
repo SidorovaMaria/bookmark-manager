@@ -35,3 +35,10 @@ export const DEFAULT_ERROR = {
   message: "Please try again later.",
   icon: Frown,
 };
+export const isInput = (element: HTMLElement | null) => {
+  if (!element) return false;
+  const tagName = element.tagName;
+  return (
+    tagName === "INPUT" || tagName === "TEXTAREA" || (element as HTMLElement).isContentEditable
+  );
+};

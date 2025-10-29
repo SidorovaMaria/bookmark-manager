@@ -1,5 +1,6 @@
 // components/ui/DropDown.tsx
 "use client";
+import { isInput } from "@/constants";
 /**
  * DropDown — a thin wrapper around Radix DropdownMenu.
  *
@@ -39,7 +40,7 @@ const DropDown = ({ children, dropDownContent, openKey }: DropDownProps) => {
   useEffect(() => {
     if (!openKey) return;
     window.addEventListener("keydown", (e) => {
-      if (e.key === openKey) {
+      if (e.key === openKey && !isInput) {
         if (!open) {
           e.preventDefault();
           setOpen((prev) => !prev);
