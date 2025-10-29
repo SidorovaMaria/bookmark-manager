@@ -34,7 +34,7 @@
  * ```
  */
 import * as Dialog from "@radix-ui/react-dialog";
-import { cloneElement, useCallback, useMemo, useState } from "react";
+import { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
 import { X } from "lucide-react";
 import Button from "./Button";
 type ModalBodyProps = {
@@ -57,6 +57,9 @@ type Props = {
 
   /** Controlled open changer. Required if `open` is provided. */
   onOpenChange?: (open: boolean) => void;
+
+  /** Optional key to open the modal via keyboard shortcut. */
+  openKey?: string;
 };
 const FormModal = ({
   modalContent,
@@ -64,6 +67,7 @@ const FormModal = ({
   title,
   description,
   open: controlledOpen,
+  openKey,
   onOpenChange,
 }: Props) => {
   // Uncontrolled state if `open` isn’t provided
@@ -86,6 +90,22 @@ const FormModal = ({
     () => cloneElement(modalContent, { closeForm: close }),
     [modalContent, close]
   );
+  useEffect(() => {
+    if (!openKey) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === openKey) {
+        if (!open) {
+          e.preventDefault();
+          setOpen(true);
+        }
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [openKey, open, setOpen]);
+
   return (
     <Dialog.Root open={open} onOpenChange={setOpen} modal>
       {/* TRIGGER — This is whatever you pass as `children` */}

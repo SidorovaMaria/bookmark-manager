@@ -1,7 +1,5 @@
 # Bookmark Manager
 
-A full‑stack, production‑ready implementation of the **Frontend Mentor – Bookmark Manager** challenge, expanded with authentication, metadata scraping (title/description/favicon), Cloudinary image storage, duplicate detection, keyboard shortcuts, PWA offline support, and a Chrome/Edge extension for one‑click saving from the browser.
-
 ## Table of Contents
 
 - [Demo](#demo)

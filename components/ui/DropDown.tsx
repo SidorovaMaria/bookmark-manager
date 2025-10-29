@@ -22,7 +22,7 @@
  * */
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import React, { cloneElement, useCallback, useMemo, useState } from "react";
+import React, { cloneElement, useCallback, useEffect, useMemo, useState } from "react";
 
 type DropDownBodyProps = {
   /** Provided to your content so it can close the dropdown (e.g., after a chosen action). */
@@ -31,10 +31,26 @@ type DropDownBodyProps = {
 type DropDownProps = {
   children: React.ReactNode; // Trigger element
   dropDownContent: React.ReactElement<DropDownBodyProps>; // Content inside the dropdown
+  openKey?: string; // Optional key to control open state externally
 };
 
-const DropDown = ({ children, dropDownContent }: DropDownProps) => {
+const DropDown = ({ children, dropDownContent, openKey }: DropDownProps) => {
   const [open, setOpen] = useState(false);
+  useEffect(() => {
+    if (!openKey) return;
+    window.addEventListener("keydown", (e) => {
+      if (e.key === openKey) {
+        if (!open) {
+          e.preventDefault();
+          setOpen((prev) => !prev);
+        }
+      }
+    });
+    return () => {
+      window.removeEventListener("keydown", () => {});
+    };
+  }, [openKey, open]);
+
   // Stable function to close the dropdown
   const close = useCallback(() => setOpen(false), [setOpen]);
   // Clone the provided content to inject the closeDropdown props

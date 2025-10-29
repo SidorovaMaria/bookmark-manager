@@ -69,6 +69,29 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
     });
     await logOut();
   };
+  // Keyboard shortcut: focus search on s key press
+  React.useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "s" && document.activeElement?.tagName !== "INPUT") {
+        e.preventDefault();
+        const searchInput = document.getElementById("topbar-search");
+        searchInput?.focus();
+      }
+      if (e.key === "a") {
+        e.preventDefault();
+        //navigate to archive page
+        router.push("/archive");
+      }
+      if (e.key === "h") {
+        e.preventDefault();
+        //navigate to home page
+        router.push("/");
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [router]);
+
   return (
     <header
       role="banner"
@@ -112,6 +135,7 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
         <FormModal
           title="Add Bookmark"
           description="Save a link with details to keep your collection organized."
+          openKey="b"
           modalContent={<BookmarkForm />}
         >
           <Button
@@ -125,7 +149,7 @@ const Topbar = ({ setOpenSidebar }: TopBarProps) => {
           </Button>
         </FormModal>
 
-        <DropDown dropDownContent={<ProfileMenu user={user} onLogout={handleLogout} />}>
+        <DropDown openKey="m" dropDownContent={<ProfileMenu user={user} onLogout={handleLogout} />}>
           <Image
             src={user.image || fallbackAvatarSrc}
             alt="Open profile menu"

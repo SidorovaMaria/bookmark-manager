@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/auth/actions";
 import Logo from "@/components/ui/Logo";
 import clsx from "clsx";
 import { ReactNode } from "react";

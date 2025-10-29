@@ -43,6 +43,7 @@ const Navigation = () => {
       };
     }
   }, [openSidebar]);
+
   return (
     <section className="flex w-full items-start sticky top-0 z-50">
       {/* Sidebar (slides in on mobile, static on lg+) */}
