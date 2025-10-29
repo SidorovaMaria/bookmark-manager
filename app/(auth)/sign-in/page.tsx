@@ -13,12 +13,6 @@ const SignInPage = () => {
       <SignInForm />
       <div className="space-y-3 w-full text-center ">
         <p className="text-4-medium text-subtle">
-          Forgot Password?{" "}
-          <Link href="/forgot-password" className="text-4 text-n-900 dark:text-n-0">
-            Reset it
-          </Link>
-        </p>
-        <p className="text-4-medium text-subtle">
           Don’t have an account?{" "}
           <Link href="/sign-up" className="text-4 text-n-900 dark:text-n-0">
             Sign Up
